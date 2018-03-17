@@ -5,7 +5,7 @@ For a technical desciption of the surrogate modeling method, see https://arxiv.o
 
 This video shows a 1-d example of a non-spinning surrogate, the data for which was generated using the SEOBNRv4 waveform model. We show greedy basis for the real part of the l=m=2 mode, but then switch to amplitude and build a surrogate for that.
 
-#Video files
+# Video files
 waves.mp4: Greedy basis construction.
 ei.mp4: Empirical interpolation.
 fits.mp4: Fits across parameter space.

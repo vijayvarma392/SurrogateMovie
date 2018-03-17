@@ -13,6 +13,6 @@ eval.mp4: Evalution of surrogate.
 full_movie.mp4: The whole shebang.  
 
 Each of the above file names, except full_movie.mp4 also has a companion .png file that has the first frame of the video.
-Also waveamp.png shows the last frame of waves.mp4.
+Also, waveamp.png shows the last frame of waves.mp4.
 
 If you use these videos, don't forget to credit me (Vijay Varma)!

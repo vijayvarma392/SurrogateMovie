@@ -10,12 +10,20 @@ This video shows a 1-d example of a non-spinning surrogate, the data for which w
 
 ## Video files
 waves.mp4: Greedy basis construction.
+
 ei.mp4: Empirical interpolation.
+
 fits.mp4: Fits across parameter space.
+
 eval.mp4: Evalution of surrogate.
+
 full_movie.mp4: The whole shebang.
+
+full_movie.gif: gif version of full_movie.mp4. Lower quality and higher file
+size, so use the mp4 version unless you need a gif.
 
 Each of the above file names, except full_movie.mp4 also has a companion .png file that has the first frame of the video.
 Also, waveamp.png shows the last frame of waves.mp4.
 
-If you use these videos, don't forget to credit me (Vijay Varma)!
+If you use these videos, don't forget to credit me ([Vijay
+Varma](http://www.tapir.caltech.edu/~vvarma/))!

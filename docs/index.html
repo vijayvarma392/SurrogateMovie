@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+<!--
+    Epilogue by TEMPLATED
+    templated.co @templatedco
+    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+    <head>
+        <title>Vijay Varma | Surrogate modeling</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+        <!-- Start of Woopra Code -->
+        <script>
+          (function(){
+            var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+          })("woopra");
+        
+          woopra.config({
+              domain: 'vijayvarma392.github.io'
+          });
+          woopra.track();
+        </script>
+        <!-- End of Woopra Code -->
+
+    </head>
+    <body>
+
+        <!-- Header -->
+            <header id="header" class="alt">
+                <div class="inner">
+                    <h1>Surrogate modeling demo</h1>
+                    <h3 style="text-transform: none;">A data-driven approach to waveform modeling</h3>
+                </div>
+            </header>
+
+        <!-- Wrapper -->
+            <div id="wrapper">
+
+                <!-- Banner -->
+                <section id="main" class="main">
+
+                        <header>
+                            <h2>Introduction</h2>
+                        </header>
+
+                                <p>
+        In order for LIGO to detect gravitational waves and do astrophysics, it
+        is crucial to have an accurate model of the gravitational waves.
+        Numerical relativity (NR) is the only method that accurately models the
+        merger part of a binary black hole signal. However, these
+        simulations are prohibitively expensive for most direct applications.
+                                </p>
+
+                                <p>
+        Therefore, several approximate waveform models have been developed over
+        the years. The two main approaches have been dubbed "Phenomenological"
+        and "Effective-one-body" waveforms. These models typically make some
+        assumptions about the phenomenology of the waveforms, based on good
+        physical motivations. Then, any remaining free parameters are set by
+        fitting against NR simulations. These models are also quite fast and
+        can be directly used for GW applications.
+                                </p>
+
+                                <p>
+        Surrogate modeling is a data driven approach to waveform modeling that
+        has come about in the last few years. Here, we do not make any
+        assumptions about the underlying phenomenology but rather use the NR
+        waveforms themselves to implicitly reconstruct the phenomenology. This
+        is achieved by first building an accurate basis using the NR waveforms
+        themselves and then using some fancy interpolation methods to construct
+        a waveform model. The SXS collaboration, led by Jon Blackman, Scott
+        Field and others, has pioneered this approach to waveform modeling. I
+        have since been leading the effort.
+            </p>    
+                                <p> This website shows a video demonstration
+        of the surrogate modelling procedure. We construct a surrogate model
+        for nonspinning binary black holes. The total mass scales out of the
+        system and the only free parameter is the mass ratio (q). We use the
+        SEOBNRv4 waveform model for this demonstration, but the same can be
+        done with NR waveforms. These movies can be found 
+        <a class="insideLink" href="https://github.com/vijayvarma392/SurrogateMovie " target="_blank" >here</a>. Note that this is a very high-level
+        description of the process, where I skip most of the details. Refer to 
+        <a class="insideLink" href="https://arxiv.org/abs/1308.3565" target="_blank" >1308.3565</a> for the technical details. Some recent surrogate models I
+        developed are described in <a class="insideLink" href="https://arxiv.org/abs/1812.07865" target="_blank" >1812.07865</a>.
+                                </p>   
+                        
+
+                    </section>
+
+
+                <!-- Main -->
+                    <section id="main" class="main">
+                        <header>
+                            <h2>Surrogate modeling demo</h2>
+
+                  <p><video width="600px" height="auto" controls muted loop autoplay>
+                      <source src="movies/full_movie.mp4" type="video/mp4"> Your browser does not support the video tag.
+                    </video></p>   
+
+                  <h2>Let's break it down</h2>
+
+                        </header>
+
+                                <h3>Reduced basis</h3>
+
+                                <p> To build a surrogate model, we begin with
+        a dataset of waveforms. In this case, this is nonspinning waveforms
+        with q between 1 and 10.  The first step is to construct an accurate
+        basis that represents our space of waveforms. We do this using the very
+        waveforms we are trying to model. The basis functions are picked in an
+        iterative manner where in each step the waveform that has the highest
+        projection error onto the current basis, gets added to the basis for
+        the next iteration. We proceed until the projection error goes below a
+        chosen threshold. In this manner we pick out the most representative
+        waveforms to form our basis, and reduce the dataset in the q direction
+        to a small set of basis functions.
+                                </p>
+
+                                <p> In the movie below, we show what the
+        selected waveforms might look like. We first show the real part of the
+        (2,2) mode, which is highly oscillatory. It is much easier to build a
+        model for a slowly varying function, therefore we instead work with the
+        amplitude and phase of the (2,2) mode. At the end of the movie we show
+        the amplitudes of the selected waveforms, which are much simpler.  In
+        this example, we will construct a surrogate model for the amplitude.
+                                </p>
+
+            <video width="600px" height="auto" controls loop>
+                <source src="movies/waves.mp4" type="video/mp4"> 
+                Your browser does not support the video tag.
+            </video> 
+                                
+            <p></br></p>
+            
+                                <h3>Empirical interpolation</h3>
+
+                                <p> Having constructed our basis, the next
+        step is to reduce the data in the time direction. This is done using
+        the empirical interpolation method, which iteratively picks out the
+        time values that are most representative. Only these time values,
+        called the empirical time nodes, are used in constructing an
+        empirical interpolant in time. This is shown in the movie below.
+                                </p>
+
+            <video width="600px" height="auto" controls loop>
+                <source src="movies/ei.mp4" type="video/mp4"> 
+                Your browser does not support the video tag.
+            </video>
+
+            <p></br></p>
+                                <h3>Parametric fits</h3>
+
+                                <p> At this point we have condensed our dataset
+            in both q and time directions. Given our basis functions, all we
+            need to evaluate the waveform is the basis coefficients so that
+            we can project the basis functions. Thanks to the empirical
+            interpolant method, these coefficients only need to be evaluated
+            at the empirical time nodes. However, what if we want to evaluate
+            the waveform at a random point in the parameter space where we
+            don't have a basis function?
+                                </p>
+
+                                <p> To do this, we first construct fits
+            across parameter space, at each of the empirical time nodes, as
+            demonstrated below.
+                                </p>
+
+            <video width="600px" height="auto" controls loop>
+                <source src="movies/fits.mp4" type="video/mp4"> 
+                Your browser does not support the video tag.
+            </video>
+
+            <p></br></p>
+                                <h3>Evaluation</h3>
+
+                                <p> Finally, to evaluate the waveform at
+            a random parameter space point: We first evaluate the fits at that
+            point. This gives use the basis coefficients, which we use to
+            project the basis functions to get the amplitude evaluation.
+                                </p>
+
+            <video width="600px" height="auto" controls loop>
+                <source src="movies/eval.mp4" type="video/mp4"> 
+                Your browser does not support the video tag.
+            </video>
+
+
+                    </section>
+
+
+
+
+
+                <!-- Usage -->
+                    <section id="main" class="main">
+                        <header>
+                            <h2 id="gen_your_own">Downloading these movies</h2>
+                        </header>
+
+                        <p> You can download these movies by right-clicking on
+    them. On Chrome choose "Save Video As..", and similar for other browsers.
+    You can also get them directly from my <a target="_blank" href="https://github.com/vijayvarma392/SurrogateMovie">Github</a> repo as follows. Don't forget to <a href="#credits">credit</a> me.
+                        </p>
+
+<pre><code>git clone git@github.com:vijayvarma392/SurrogateMovie.git
+</code></pre>  
+
+        <h3 id="contents">List of visualizations</h3>
+        <ul>
+          <li>waves.mp4: Reduced basis construction.</li>
+          <li>ei.mp4: Empirical interpolation.</li>
+          <li>fits.mp4: Fits across parameter space.</li>
+          <li>eval.mp4: Evalution of surrogate.</li>
+          <li>full_movie.mp4: The whole shebang.</li>
+          <li>full_movie.gif: gif version of above file. Lower quality and
+              higher file size, so use the mp4 version unless you need a
+              gif.</li>
+        </ul>  
+
+        <p>
+        Each of the above file names, except full_movie.mp4 also has a
+        companion .png file that has the first frame of the video. Also,
+        waveamp.png shows the last frame of waves.mp4.
+        </p>
+
+
+                    </section>
+
+
+
+
+                <!-- Credits -->
+                    <section id="main" class="main">
+                        <header>
+                            <h2 id="credits">Credits</h2>
+                        </header>
+
+                        <p> 
+                        These movies were made by me, 
+    <a target="_blank" href="http://www.tapir.caltech.edu/~vvarma/">Vijay Varma</a>. 
+    Please credit me, and cite this website, if you use these visualizations in
+    your work, presentations or outreach.
+                        </p>
+
+                    </section>
+
+
+
+                <!-- Footer -->
+                    <footer id="footer">
+                        <p class="copyright">&copy; Vijay Varma 2018. Design: <a href="https://templated.co">TEMPLATED</a>. Background <a target="_blank" href="https://www.ligo.caltech.edu/image/ligo20160615f">artwork</a> credit: LIGO/T. Pyle</p>
+
+                    </footer>
+
+            </div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
